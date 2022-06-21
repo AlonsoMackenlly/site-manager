@@ -1,18 +1,11 @@
 import {Table} from 'antd';
 import {sitesList} from "@/lib/sites";
 import {useEffect, useState} from "react";
-import {PlusCircleOutlined} from "@ant-design/icons";
 import NewSiteModal from "./NewSiteModal";
-import App from "next/app";
 
-
-const Index = (props) => {
+const SitesTable = (props) => {
     const [sites, setSites] = useState([])
-    const getInitialProps = async (ctx) => {
-        return {qwe: 123}
-    }
 
-    console.log(props)
     const columns = [
             {
                 title: () =>
@@ -50,13 +43,4 @@ const Index = (props) => {
 }
 
 
-Index.getInitialProps = async (ctx) => {
-    console.log('!!!!!!!!!!!!!!')
-    const appProps = await App.getInitialProps(ctx)
-    return {
-        ...appProps,
-        domain: process.env.DOMAIN
-    }
-};
-
-export default Index;
+export default SitesTable

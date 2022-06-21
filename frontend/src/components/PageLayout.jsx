@@ -1,4 +1,4 @@
-import {Badge, Layout, Menu} from "antd";
+import {Layout, Menu, Space} from "antd";
 import React from "react";
 import Link from 'next/link';
 import {useMenu} from "@/lib/menu";
@@ -6,19 +6,21 @@ import {useUser} from "@/lib/user";
 
 const {Header, Content} = Layout;
 
-export default function PageLayout({children, h1}) {
+function PageLayout({children, h1}) {
     const user = useUser();
     const {actveMenuKey, menu} = useMenu();
 
     return <Layout className="layout">
         <Header className="flex bg-white">
-            <div className="w-full flex justify-between align-center">
-                <Menu
-                    activeKey={actveMenuKey}
-                    mode="horizontal"
-                    items={menu}
-                    className="w-full justify-start border-0"
-                />
+            <div className={`w-full flex ${user ? 'justify-between' : 'justify-center'} align-center`}>
+                {user && (
+                    <Menu
+                        activeKey={actveMenuKey}
+                        mode="horizontal"
+                        items={menu}
+                        className="w-full justify-start border-0"
+                    />
+                )}
                 <div className="flex justify-end items-center gap-x-6">
                     {/* TODO: Перенести в компонент */}
                     {user ? (
@@ -40,17 +42,21 @@ export default function PageLayout({children, h1}) {
                 </div>
             </div>
         </Header>
-        <Layout style={{margin: '24px', padding: '24px'}}
-                className="bg-white border border-slate-100 shadow-md rounded-md">
-            <h1>{h1}</h1>
-            <Content
-                style={{
-                    paddingTop: '1rem',
-                    minHeight: 280,
-                }}
-            >
-                {children}
-            </Content>
-        </Layout>
+        {user && (
+            <Layout style={{margin: '24px', padding: '24px'}}
+                    className="bg-white border border-slate-100 shadow-md rounded-md">
+                <h1>{h1}</h1>
+                <Content
+                    style={{
+                        paddingTop: '1rem',
+                        minHeight: 280,
+                    }}
+                >
+                    {children}
+                </Content>
+            </Layout>
+        )}
     </Layout>
 }
+
+export default PageLayout
