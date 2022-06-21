@@ -1,0 +1,57 @@
+/*@tailwind base;*/
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+@tailwind screens;
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 14px;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+h1 {
+    @apply text-2xl;
+}
+
+h2 {
+    @apply text-xl;
+}
+
+h3 {
+    @apply text-lg;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    line-height: unset;
+    padding: 5px;
+}
+
+.logo div {
+    margin: unset;
+}
+
+.logo .first {
+
+}
+
+.logo .second {
+
+}
+
+.ant-menu-item {
+    display: flex !important;
+    align-items: center;
+}
+
+.ant-layout {
+    background: #ffffff;
+}
