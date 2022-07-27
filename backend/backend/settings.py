@@ -14,6 +14,7 @@ import os.path
 import environ
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,12 +22,13 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False),
-    SECRET_KEY=(str, ""),
-    OIDC_RSA_PRIVATE_KEY=(str, ""),
-    FRONTEND_URL=(str, "http://localhost:3000")
+    DEBUG = (bool, False),
+    SECRET_KEY = (str, ""),
+    OIDC_RSA_PRIVATE_KEY = (str, ""),
+    FRONTEND_URL = (str, "http://localhost:3000")
 )
 
+DEBUG = env('DEBUG')
 SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = ['*']
 
@@ -37,19 +39,23 @@ CORS_ALLOWED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    # Vendors
+    'oauth2_provider',
+    'rest_framework',
+    'environ',
+    'grappelli',
+    'filebrowser',
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Vendors
-    'oauth2_provider',
-    'rest_framework',
-    'environ',
     # Project apps
     'apps.main',
     'apps.api',
+    'apps.docker_core'
 ]
 
 MIDDLEWARE = [
@@ -66,10 +72,12 @@ ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'BACKEND':  'django.template.backends.django.DjangoTemplates',
+        'DIRS':     [
+            os.path.join(BASE_DIR, 'templates')
+        ],
         'APP_DIRS': True,
-        'OPTIONS': {
+        'OPTIONS':  {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -85,7 +93,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME':   BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -119,16 +127,19 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 OIDC_RSA_PRIVATE_KEY = env("OIDC_RSA_PRIVATE_KEY")
 
 OAUTH2_PROVIDER = {
     "OIDC_RSA_PRIVATE_KEY": OIDC_RSA_PRIVATE_KEY,
-    'SCOPES': {
+    'SCOPES':               {
         'openid': 'openid',
     },
-    'OIDC_ENABLED': True
+    'OIDC_ENABLED':         True
 }
 
 REST_FRAMEWORK = {
@@ -138,7 +149,9 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     ),
 
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PERMISSION_CLASSES':     (
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+FILEBROWSER_DIRECTORY = 'uploads/'

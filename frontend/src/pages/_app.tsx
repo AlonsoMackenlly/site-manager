@@ -5,7 +5,6 @@ import React, {useState} from "react"
 
 const Application = ({Component, pageProps}) => {
     const [layoutProps, setLayoutProps] = useState({});
-    console.log(Component.h1)
     return (
         <>
             <Component {...pageProps} layoutProps={{...layoutProps, setLayoutProps}}/>

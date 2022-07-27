@@ -16,6 +16,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class SitesApiView(viewsets.ViewSet, viewsets.ViewSetMixin, viewsets.generics.GenericAPIView):
+    permission_classes = []
+
     def get(self, request):
         """ Возвращает список сайтов """
 

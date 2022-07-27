@@ -5,10 +5,10 @@ import React from 'react';
 
 const {Content} = Layout;
 
-const App = () => {
+const App = (props) => {
     const user = useUser();
     return (
-        <PageLayout h1="Nginx / База данных">
+        <PageLayout h1="Nginx / База данных" {...props}>
                 {user && (
                 <>
                     <div className="p-10 grid justify-items-center">
@@ -29,5 +29,12 @@ const App = () => {
     )
 }
 
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            domain: process.env.DOMAIN
+        }
+    }
+}
 
 export default App;

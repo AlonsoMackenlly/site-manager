@@ -15,16 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth.views import LoginView
-from django.urls import path, include
+from django.urls import (
+    path,
+    include
+)
+from filebrowser.sites import site
+
 from apps.main.views import AuthorizationView
 
 from apps.main.oidc import OIDCUserInfoView
 
+
 urlpatterns = [
+    path('admin/filebrowser/', site.urls),
+    path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
-    path('oauth/userinfo/', OIDCUserInfoView.as_view(), name="user-info"),
-    path("oauth/authorize/", AuthorizationView.as_view(), name="authorize"),
-    path('oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    path('accounts/login/', LoginView.as_view(template_name='admin/login.html')),
+    path('oauth/userinfo/', OIDCUserInfoView.as_view(), name = "user-info"),
+    path("oauth/authorize/", AuthorizationView.as_view(), name = "authorize"),
+    path('oauth/', include('oauth2_provider.urls', namespace = 'oauth2_provider')),
+    path('accounts/login/', LoginView.as_view(template_name = 'admin/login.html')),
     path('api/', include('apps.api.urls')),
 ]
